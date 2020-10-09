@@ -1332,6 +1332,7 @@
 
               menuInner.firstChild.style.marginTop = marginTop + 'px';
               menuInner.firstChild.style.marginBottom = marginBottom + 'px';
+              //console.log(marginTop, marginBottom)
             } else {
               menuInner.firstChild.style.marginTop = 0;
               menuInner.firstChild.style.marginBottom = 0;
@@ -2114,12 +2115,12 @@
 
         if (this.options.size === 'auto') {
           $window
-            .off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize')
-            .on('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize', function () {
+            .off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize')
+            .on('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize', function () {
               return that.setMenuSize();
             });
         } else if (this.options.size && this.options.size != 'auto' && this.selectpicker.current.elements.length > this.options.size) {
-          $window.off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize');
+          $window.off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize');
         }
       }
 
@@ -2222,8 +2223,8 @@
       });
 
       $(window)
-        .off('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId)
-        .on('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId, function () {
+        .off('resize' + EVENT_KEY + '.' + this.selectId)
+        .on('resize' + EVENT_KEY + '.' + this.selectId, function () {
           var isActive = that.$newElement.hasClass(classNames.SHOW);
 
           if (isActive) getPlacement(that.$newElement);

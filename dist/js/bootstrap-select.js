@@ -1240,11 +1240,12 @@
 
         that.selectpicker.view.scrollTop = scrollTop;
 
-        chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 1.5); // number of options in a chunk
+        chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 2); // number of options in a chunk
         chunkCount = Math.round(size / chunkSize) || 1; // number of chunks
 
         for (var i = 0; i < chunkCount; i++) {
           var endOfChunk = (i + 1) * chunkSize;
+          var elementData;
 
           if (i === chunkCount - 1) {
             endOfChunk = size;
@@ -1257,7 +1258,8 @@
 
           if (!size) break;
 
-          if (currentChunk === undefined && scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
+          elementData = that.selectpicker.current.data[endOfChunk - 1];
+          if (currentChunk === undefined && scrollTop - 1 <= elementData.position + elementData.height) {
             currentChunk = i;
           }
         }
@@ -1351,8 +1353,12 @@
             }
 
             if (isVirtual === true) {
-              marginTop = (that.selectpicker.view.position0 === 0 ? 0 : that.selectpicker.current.data[that.selectpicker.view.position0 - 1].position);
-              marginBottom = (that.selectpicker.view.position1 > size - 1 ? 0 : that.selectpicker.current.data[size - 1].position - that.selectpicker.current.data[that.selectpicker.view.position1 - 1].position);
+              var data0 = that.selectpicker.current.data[that.selectpicker.view.position0 - 1];
+              var data1 = that.selectpicker.current.data[that.selectpicker.view.position1 - 1];
+              var currentData = that.selectpicker.current.data[size - 1];
+
+              marginTop = (that.selectpicker.view.position0 === 0 ? 0 : data0.position);
+              marginBottom = (that.selectpicker.view.position1 > size - 1 ? 0 : currentData.position - data1.position);
 
               menuInner.firstChild.style.marginTop = marginTop + 'px';
               menuInner.firstChild.style.marginBottom = marginBottom + 'px';
@@ -1460,6 +1466,7 @@
             titleNotAppended = !this.selectpicker.view.titleOption.parentNode,
             selectedIndex = element.selectedIndex,
             selectedOption = element.options[selectedIndex],
+            firstSelectable = element.querySelector('select > *:not(:disabled)').index,
             navigation = window.performance && window.performance.getEntriesByType('navigation'),
             // Safari doesn't support getEntriesByType('navigation') - fall back to performance.navigation
             isNotBackForward = (navigation && navigation.length) ? navigation[0].type !== 'back_forward' : window.performance.navigation.type !== 2;
@@ -1472,7 +1479,7 @@
           // Check if selected or data-selected attribute is already set on an option. If not, select the titleOption option.
           // the selected item may have been changed by user or programmatically before the bootstrap select plugin runs,
           // if so, the select will have the data-selected attribute
-          selectTitleOption = !selectedOption || (selectedIndex === 0 && selectedOption.defaultSelected === false && this.$element.data('selected') === undefined);
+          selectTitleOption = !selectedOption || (selectedIndex === firstSelectable && selectedOption.defaultSelected === false && this.$element.data('selected') === undefined);
         }
 
         if (titleNotAppended || this.selectpicker.view.titleOption.index !== 0) {
@@ -2137,12 +2144,12 @@
 
         if (this.options.size === 'auto') {
           $window
-            .off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize')
-            .on('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize', function () {
+            .off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize')
+            .on('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize', function () {
               return that.setMenuSize();
             });
         } else if (this.options.size && this.options.size != 'auto' && this.selectpicker.current.elements.length > this.options.size) {
-          $window.off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize');
+          $window.off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize');
         }
       }
 
@@ -2245,8 +2252,8 @@
       });
 
       $(window)
-        .off('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId)
-        .on('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId, function () {
+        .off('resize' + EVENT_KEY + '.' + this.selectId)
+        .on('resize' + EVENT_KEY + '.' + this.selectId, function () {
           var isActive = that.$newElement.hasClass(classNames.SHOW);
 
           if (isActive) getPlacement(that.$newElement);

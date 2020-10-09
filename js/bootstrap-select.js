@@ -1216,12 +1216,12 @@
 
         that.selectpicker.view.scrollTop = scrollTop;
 
-        chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 1.5); // number of options in a chunk
+        chunkSize = Math.ceil(that.sizeInfo.menuInnerHeight / that.sizeInfo.liHeight * 2); // number of options in a chunk
         chunkCount = Math.round(size / chunkSize) || 1; // number of chunks
 
         for (var i = 0; i < chunkCount; i++) {
           var endOfChunk = (i + 1) * chunkSize;
-          var currentData;
+          var elementData;
 
           if (i === chunkCount - 1) {
             endOfChunk = size;
@@ -1234,8 +1234,8 @@
 
           if (!size) break;
 
-          currentData = that.selectpicker.current.data[endOfChunk - 1];
-          if (currentChunk === undefined && scrollTop - 1 <= currentData.position + currentData.height - that.sizeInfo.menuInnerHeight) {
+          elementData = that.selectpicker.current.data[endOfChunk - 1];
+          if (currentChunk === undefined && scrollTop - 1 <= elementData.position + elementData.height) {
             currentChunk = i;
           }
         }
@@ -1329,12 +1329,17 @@
             }
 
             if (isVirtual === true) {
-              marginTop = (that.selectpicker.view.position0 === 0 ? 0 : that.selectpicker.current.data[that.selectpicker.view.position0 - 1].position);
-              marginBottom = (that.selectpicker.view.position1 > size - 1 ? 0 : that.selectpicker.current.data[size - 1].position - that.selectpicker.current.data[that.selectpicker.view.position1 - 1].position);
+              var data0 = that.selectpicker.current.data[that.selectpicker.view.position0 - 1];
+              var data1 = that.selectpicker.current.data[that.selectpicker.view.position1 - 1];
+              var currentData = that.selectpicker.current.data[size - 1];
+
+              marginTop = (that.selectpicker.view.position0 === 0 ? 0 : data0.position);
+              marginBottom = (that.selectpicker.view.position1 > size - 1 ? 0 : currentData.position - data1.position);
 
               menuInner.firstChild.style.marginTop = marginTop + 'px';
               menuInner.firstChild.style.marginBottom = marginBottom + 'px';
-              console.log(marginTop, marginBottom)
+
+              console.log(marginTop, marginBottom);
             } else {
               menuInner.firstChild.style.marginTop = 0;
               menuInner.firstChild.style.marginBottom = 0;

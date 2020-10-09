@@ -1221,6 +1221,7 @@
 
         for (var i = 0; i < chunkCount; i++) {
           var endOfChunk = (i + 1) * chunkSize;
+          var currentData;
 
           if (i === chunkCount - 1) {
             endOfChunk = size;
@@ -1233,7 +1234,8 @@
 
           if (!size) break;
 
-          if (currentChunk === undefined && scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
+          currentData = that.selectpicker.current.data[endOfChunk - 1];
+          if (currentChunk === undefined && scrollTop - 1 <= currentData.position + currentData.height - that.sizeInfo.menuInnerHeight) {
             currentChunk = i;
           }
         }
@@ -1332,7 +1334,7 @@
 
               menuInner.firstChild.style.marginTop = marginTop + 'px';
               menuInner.firstChild.style.marginBottom = marginBottom + 'px';
-              //console.log(marginTop, marginBottom)
+              console.log(marginTop, marginBottom)
             } else {
               menuInner.firstChild.style.marginTop = 0;
               menuInner.firstChild.style.marginBottom = 0;

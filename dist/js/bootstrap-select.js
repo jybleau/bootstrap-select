@@ -1,7 +1,7 @@
 /*!
  * Bootstrap-select v1.13.18 (https://developer.snapappointments.com/bootstrap-select)
  *
- * Copyright 2012-2020 SnapAppointments, LLC
+ * Copyright 2012-2021 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
  */
 
@@ -1896,7 +1896,8 @@
           text = elementTemplates.span.cloneNode(false),
           header = this.options.header && this.$menu.find('.' + classNames.POPOVERHEADER).length > 0 ? this.$menu.find('.' + classNames.POPOVERHEADER)[0].cloneNode(true) : null,
           search = this.options.liveSearch ? elementTemplates.div.cloneNode(false) : null,
-          actions = this.options.actionsBox && this.multiple && this.$menu.find('.bs-actionsbox').length > 0 ? this.$menu.find('.bs-actionsbox')[0].cloneNode(true) : null,
+          // Panache: remove this.options.actionsBox && (so the bs-actionbox can be used on a manually inserted element to calculate the height correctly)
+          actions = this.multiple && this.$menu.find('.bs-actionsbox').length > 0 ? this.$menu.find('.bs-actionsbox')[0].cloneNode(true) : null,
           doneButton = this.options.doneButton && this.multiple && this.$menu.find('.bs-donebutton').length > 0 ? this.$menu.find('.bs-donebutton')[0].cloneNode(true) : null,
           firstOption = this.$element.find('option')[0];
 
@@ -2915,9 +2916,13 @@
             liActiveIndex = that.selectpicker.current.elements.length - 1;
           } else {
             activeLi = that.selectpicker.current.data[liActiveIndex];
-            offset = activeLi.position - activeLi.height;
 
-            updateScroll = offset < scrollTop;
+            // could be undefined if no results exist
+            if (activeLi) {
+              offset = activeLi.position - activeLi.height;
+
+              updateScroll = offset < scrollTop;
+            }
           }
         } else if (e.which === keyCodes.ARROW_DOWN || downOnTab) { // down
           // scroll to top and highlight first option
@@ -2927,15 +2932,19 @@
             liActiveIndex = that.selectpicker.view.firstHighlightIndex;
           } else {
             activeLi = that.selectpicker.current.data[liActiveIndex];
-            offset = activeLi.position - that.sizeInfo.menuInnerHeight;
 
-            updateScroll = offset > scrollTop;
+            // could be undefined if no results exist
+            if (activeLi) {
+              offset = activeLi.position - that.sizeInfo.menuInnerHeight;
+
+              updateScroll = offset > scrollTop;
+            }
           }
         }
 
         liActive = that.selectpicker.current.elements[liActiveIndex];
 
-        that.activeIndex = that.selectpicker.current.data[liActiveIndex].index;
+        that.activeIndex = (that.selectpicker.current.data[liActiveIndex] || {}).index;
 
         that.focusItem(liActive);
 

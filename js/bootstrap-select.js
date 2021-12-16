@@ -1616,7 +1616,7 @@
           mainElements = [],
           widestOptionLength = 0;
 
-      if ((that.options.showTick || that.multiple) && !elementTemplates.checkMark.parentNode) {
+      if (that.options.showTick || that.multiple) { /** PANACHE IN: remove "&& !elementTemplates.checkMark.parentNode" to have multiple picker on the same document with different tick icon for each picker PANACHE OUT */
         elementTemplates.checkMark.className = this.options.iconBase + ' ' + that.options.tickIcon + ' check-mark';
         elementTemplates.a.appendChild(elementTemplates.checkMark);
       }
@@ -1872,7 +1872,7 @@
           text = elementTemplates.span.cloneNode(false),
           header = this.options.header && this.$menu.find('.' + classNames.POPOVERHEADER).length > 0 ? this.$menu.find('.' + classNames.POPOVERHEADER)[0].cloneNode(true) : null,
           search = this.options.liveSearch ? elementTemplates.div.cloneNode(false) : null,
-          // Panache: remove this.options.actionsBox && (so the bs-actionbox can be used on a manually inserted element to calculate the height correctly)
+          // PANACHE IN: remove this.options.actionsBox && (so the bs-actionbox can be used on a manually inserted element to calculate the height correctly)
           actions = this.multiple && this.$menu.find('.bs-actionsbox').length > 0 ? this.$menu.find('.bs-actionsbox')[0].cloneNode(true) : null,
           doneButton = this.options.doneButton && this.multiple && this.$menu.find('.bs-donebutton').length > 0 ? this.$menu.find('.bs-donebutton')[0].cloneNode(true) : null,
           firstOption = this.$element.find('option')[0];

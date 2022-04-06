@@ -1,7 +1,7 @@
 /*!
  * Bootstrap-select v1.13.18 (https://developer.snapappointments.com/bootstrap-select)
  *
- * Copyright 2012-2021 SnapAppointments, LLC
+ * Copyright 2012-2022 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
  */
 
@@ -759,12 +759,12 @@
           elementTemplates.fragment.appendChild(iconElement);
           elementTemplates.fragment.appendChild(whitespace);
         }
-
-        if (options.subtext) {
-          subtextElement = elementTemplates.subtext.cloneNode(false);
-          subtextElement.textContent = options.subtext;
-          textElement.appendChild(subtextElement);
-        }
+      }
+      // Panache in: add subtext anyway
+      if (options.subtext) {
+        subtextElement = elementTemplates.subtext.cloneNode(false);
+        subtextElement.textContent = options.subtext;
+        textElement.appendChild(subtextElement);
       }
 
       if (useFragment === true) {

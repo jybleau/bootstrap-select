@@ -136,7 +136,9 @@ Options can be passed via data attributes or JavaScript. For data attributes, ap
     <td>string</td>
     <td><code>'contains'</code></td>
     <td>
-      <p>When set to <code>'contains'</code>, searching will reveal options that contain the searched text. For example, searching for pl with return both Ap<b>pl</b>e, <b>Pl</b>um, and <b>Pl</b>antain. When set to <code>'startsWith'</code>, searching for pl will return only <b>Pl</b>um and <b>Pl</b>antain.</p>
+      <p>When set to <code>'contains'</code>, searching will reveal options that contain the searched text. For example, searching for pl will return both Ap<b>pl</b>e, <b>Pl</b>um, and <b>Pl</b>antain.</p>
+      <p>When set to <code>'containsAll'</code>, searching will reveal options that contain all the searched text. For example, searching for "pl pi" will return only Ap<b>pl</b>e <b>Pi</b>e and exclude <b>Pl</b>antain.</p>
+      <p>When set to <code>'startsWith'</code>, searching for pl will return only <b>Pl</b>um and <b>Pl</b>antain.</p>
     </td>
   </tr>
   <tr>

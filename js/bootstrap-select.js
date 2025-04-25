@@ -1995,7 +1995,7 @@
       this.sizeInfo.menuInnerInnerWidth = menuWidth - menuPadding.horiz;
       this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth;
       this.sizeInfo.scrollBarWidth = scrollBarWidth;
-      this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight;
+      this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight || 36; // Panache in: add default height (because offsetHeight is 0 when element is hidden)
 
       this.setPositionData();
     },

@@ -1,7 +1,7 @@
 /*!
  * Bootstrap-select v1.13.18 (https://developer.snapappointments.com/bootstrap-select)
  *
- * Copyright 2012-2022 SnapAppointments, LLC
+ * Copyright 2012-2025 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
  */
 
@@ -2019,7 +2019,7 @@
       this.sizeInfo.menuInnerInnerWidth = menuWidth - menuPadding.horiz;
       this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth;
       this.sizeInfo.scrollBarWidth = scrollBarWidth;
-      this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight;
+      this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight || 36; // Panache in: add default height (because offsetHeight is 0 when element is hidden)
 
       this.setPositionData();
     },
